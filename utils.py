@@ -9,3 +9,8 @@ def read_input(day, transform=lambda x: x):
         for line in f:
             yield transform(line)
 
+
+def first(seq):
+    if isinstance(seq, list):
+        return seq[0]
+    return next(seq)
