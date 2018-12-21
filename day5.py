@@ -1,6 +1,5 @@
 from utils import read_input
 
-# todo: set recursion depth
 
 test_input = 'dabAcCaCBAcCcaDA'
 
@@ -16,6 +15,8 @@ def test_reacts():
 
 def test_reduce_polymer():
     assert reduce_polymer('aA') == ''
+    assert reduce_polymer('aABb') == ''
+    assert reduce_polymer('aAa') == 'a'
     assert reduce_polymer('a') == 'a'
     assert reduce_polymer('aBbA') == ''
     assert reduce_polymer('aabAAB') == 'aabAAB'
@@ -33,7 +34,20 @@ def reacts(x, y):
     return y != x and y.lower() == x
        
 
-def reduce_polymer(polymer, reduction=''):
+def reduce_polymer(polymer):
+    reduction = ''
+    while polymer != '':
+        if not reduction or not reacts(reduction[-1], polymer[0]):
+            reduction += polymer[0]
+        else:
+            reduction = reduction[:-1]
+
+        # remove first element
+        polymer = polymer[1:]
+
+    return reduction
+
+def recursive_reduce_polymer(polymer, reduction=''):
     """
     Recursively reduces the polymer
     """
